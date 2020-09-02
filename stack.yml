@@ -17,5 +17,16 @@ services:
             - 8080:8080
         volumes:
             - ./TianMiao/target/TianMiao.war:/usr/local/tomcat/webapps/TianMiao.war
+        # configuration of jaeger client
+        environment:
+            - OPENTRACING_JAEGER_SERVICE_NAME=demo_app
+            - OPENTRACING_JAEGER_UDP_SENDER_HOST=jaeger
+            - OPENTRACING_JAEGER_UDP_SENDER_PORT=6831
         depends_on:
             - mysql
+    # Jaeger all-in-one is useful for demo applications or testing, but a production deployment should be microservices
+    # https://www.jaegertracing.io/docs/1.19/deployment/
+    jaeger:
+        image: jaegertracing/all-in-one
+        ports:
+            - 16686:16686
