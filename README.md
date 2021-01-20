@@ -17,7 +17,10 @@ Here are the tools you need:
 > cd TianMiao
 > mvn clean install -Dmaven.test.skip=true
 
-### Step 3 - Run the project with docker
+### Step 3 - Install Loki logging driver
+> `docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions`
+
+### Step 4 - Run the project with docker
 > Open your commandline, cd to the git directory
 > Make sure you have docker app running
 > Run 'docker-compose -f stack.yml up' (add -d if you want it to run in background)
