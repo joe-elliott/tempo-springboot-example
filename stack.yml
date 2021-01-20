@@ -20,15 +20,15 @@ services:
             - ./opentelemetry-javaagent-all.jar:/opentelemetry-javaagent-all.jar
         # configuration of jaeger client
         environment:
-            - OTEL_EXPORTER=otlp
-            - OTEL_EXPORTER_OTLP_ENDPOINT=otelcol:55680
+            - OTEL_EXPORTER=otlp_span
+            - OTEL_EXPORTER_OTLP_ENDPOINT=tempo:55680
             - OTEL_EXPORTER_OTLP_INSECURE=true
             - OTEL_RESOURCE_ATTRIBUTES=service.name=demo
             - JAVA_OPTS=-javaagent:/opentelemetry-javaagent-all.jar
         depends_on:
             - mysql
-    otelcol:
-        image: otel/opentelemetry-collector:0.18.0
-        command: ["--config=/etc/otel.yaml"]
-        volumes:
-            - ./otel.yaml:/etc/otel.yaml
+    tempo:
+        image: grafana/tempo:0.5.0
+        command: ["--target=all", "--storage.trace.backend=local", "--storage.trace.local.path=/var/tempo", "--auth.enabled=false"]
+        ports:
+            - 8081:80
