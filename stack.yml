@@ -24,7 +24,7 @@ services:
             - OTEL_EXPORTER_OTLP_ENDPOINT=tempo:55680
             - OTEL_EXPORTER_OTLP_INSECURE=true
             - OTEL_RESOURCE_ATTRIBUTES=service.name=demo
-            - JAVA_OPTS=-javaagent:/opentelemetry-javaagent-all.jar
+            - JAVA_OPTS=-javaagent:/opentelemetry-javaagent-all.jar -Dlogging.level.org.springframework.web.filter.CommonsRequestLoggingFilter=DEBUG '-Dlogging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg traceID=%X{traceId} %n'
         depends_on:
             - mysql
         # logging:
