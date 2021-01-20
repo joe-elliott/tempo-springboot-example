@@ -11,22 +11,24 @@ services:
         volumes:
             - ./MySQL:/docker-entrypoint-initdb.d
     tomcat:
-        image: tomcat:9-jre10
+        image: tomcat:9-jre11
         container_name: tomcat_service
         ports:
             - 8080:8080
         volumes:
             - ./TianMiao/target/TianMiao.war:/usr/local/tomcat/webapps/TianMiao.war
+            - ./opentelemetry-javaagent-all.jar:/opentelemetry-javaagent-all.jar
         # configuration of jaeger client
         environment:
-            - OPENTRACING_JAEGER_SERVICE_NAME=demo_app
-            - OPENTRACING_JAEGER_UDP_SENDER_HOST=jaeger
-            - OPENTRACING_JAEGER_UDP_SENDER_PORT=6831
+            - OTEL_EXPORTER=otlp
+            - OTEL_EXPORTER_OTLP_ENDPOINT=otelcol:55680
+            - OTEL_EXPORTER_OTLP_INSECURE=true
+            - OTEL_RESOURCE_ATTRIBUTES=service.name=demo
+            - JAVA_OPTS=-javaagent:/opentelemetry-javaagent-all.jar
         depends_on:
             - mysql
-    # Jaeger all-in-one is useful for demo applications or testing, but a production deployment should be microservices
-    # https://www.jaegertracing.io/docs/1.19/deployment/
-    jaeger:
-        image: jaegertracing/all-in-one
-        ports:
-            - 16686:16686
+    otelcol:
+        image: otel/opentelemetry-collector:0.18.0
+        command: ["--config=/etc/otel.yaml"]
+        volumes:
+            - ./otel.yaml:/etc/otel.yaml
