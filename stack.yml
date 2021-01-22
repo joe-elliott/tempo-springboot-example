@@ -15,12 +15,13 @@ services:
         container_name: tomcat_service
         ports:
             - 8080:8080
+            - 9464:9464
         volumes:
             - ./TianMiao/target/TianMiao.war:/usr/local/tomcat/webapps/TianMiao.war
             - ./opentelemetry-javaagent-all.jar:/opentelemetry-javaagent-all.jar
         # configuration of jaeger client
         environment:
-            - OTEL_EXPORTER=otlp_span
+            - OTEL_EXPORTER=otlp_span,prometheus
             - OTEL_EXPORTER_OTLP_ENDPOINT=tempo:55680
             - OTEL_EXPORTER_OTLP_INSECURE=true
             - OTEL_RESOURCE_ATTRIBUTES=service.name=demo
