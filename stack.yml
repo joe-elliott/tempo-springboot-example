@@ -29,12 +29,12 @@ services:
             options:
                 loki-url: 'http://localhost:3100/api/prom/push'
     tempo:
-        image: grafana/tempo:0.5.0
+        image: grafana/tempo:0.6.0
         command: ["--target=all", "--storage.trace.backend=local", "--storage.trace.local.path=/var/tempo", "--auth.enabled=false"]
         ports:
             - 8081:80
     tempo-query:
-        image: grafana/tempo-query:0.5.0
+        image: grafana/tempo-query:0.6.0
         #command: ["--grpc-storage-plugin.configuration-file=/etc/tempo-query.yaml"]
         environment:
             - BACKEND=tempo:80
