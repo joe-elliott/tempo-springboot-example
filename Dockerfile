@@ -15,4 +15,4 @@ FROM tomcat:9-jre110slim
 # Copy the WAR file from the build image
 COPY --from=build /usr/src/app/target/TianMiao.war /usr/local/tomcat/webapps/TianMiao.war
 # Copy the autoinstrumentation JAR into the image
-COPY opentelemetry-javaagent-all.jar /opentelemetry-javaagent-all.jar
+COPY opentelemetry-javaagent-all-DONOTUSE.jar /opentelemetry-javaagent-all.jar

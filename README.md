@@ -16,7 +16,7 @@ You will need:
 
 ### Step 3 - Run the project with docker
 1. Open your commandline, cd to the git directory
-1. Run `docker-compose -f stack.yml up` (add -d if you want it to run in background)
+1. Run `docker-compose up` (add -d if you want it to run in background)
 
 ### Step 4 - Rerun if there's an error on first run :(
 1. If you get an error while starting tomcat, it probably is because the docker container running Tomcat doesn't wait for MySQL to finish running it's setup script.
@@ -44,3 +44,10 @@ This should retrieve the trace from Tempo and display it like so:
 
 ![Loki Tempo splitscreen](./tempo.png)
 
+### Warning
+Do not use the `./opentelemetry-javaagent-all.jar` in this repo. Please use the one from [the official repo](https://github.com/open-telemetry/opentelemetry-java-instrumentation).  It is hacked together from the official repo, this repo and the [aws otel distribution](http://github.com/aws-observability/aws-otel-java-instrumentation/).
+
+Added the following:
+- `/inst/META-INF/services/io.opentelemetry.sdk.autoconfigure.spi.SdkTracerProviderConfigurer`
+- `/inst/com/example/TianMiao/TempoTracerConfigurer.class`
+- `/inst/io/opentelemetry/sdk/aws`
