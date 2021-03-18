@@ -49,7 +49,7 @@ services:
             options:
                 loki-url: 'http://localhost:3100/api/prom/push'
     loki:
-        image: grafana/loki:2.1.0
+        image: grafana/loki:2.2.0
         command: -config.file=/etc/loki/local-config.yaml
         ports:
             - "3100:3100"
