@@ -10,7 +10,7 @@ COPY TianMiao /usr/src/app
 RUN mvn clean install -Dmaven.test.skip=true
 
 # Now create the actual run image
-FROM tomcat:9-jre110slim
+FROM tomcat:9-jre11-slim
 
 # Copy the WAR file from the build image
 COPY --from=build /usr/src/app/target/TianMiao.war /usr/local/tomcat/webapps/TianMiao.war
